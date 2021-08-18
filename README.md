@@ -1,6 +1,6 @@
 # [Open Graph Image as a Service](https://og-image.vercel.app)
 
-This is a heavily customised version of [Vercel's og-image](https://github.com/vercel/).
+This is a heavily customised version of [Vercel's og-image](https://github.com/vercel/og-image).
 
 ## Original Authors
 
