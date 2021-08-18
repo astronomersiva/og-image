@@ -2,22 +2,9 @@ import { IncomingMessage } from 'http';
 import { parse } from 'url';
 import { ParsedRequest } from './types';
 
-function stringify(param: any) {
-    let text = '';
-    if (param.length === 0) {
-        text = '';
-    } else if (param.length === 1) {
-        text = param[1];
-    } else {
-        text = param.join('');
-    }
-
-    return text;
-}
-
 export function parseRequest(req: IncomingMessage) {
     console.log('HTTP ' + req.url);
-    const { pathname, query } = parse(req.url || '/', true);
+    const { pathname } = parse(req.url || '/', true);
 
     const arr = (pathname || '/').slice(1).split('.');
     let extension = '';
@@ -31,14 +18,15 @@ export function parseRequest(req: IncomingMessage) {
         text = arr.join('.');
     }
 
-    const description = query.desc;
-    const link = query.link;
+    const url = new URL(`https://siva.dev/${req.url}`);
+    const description = url.searchParams.get('desc') || '';
+    const link = url.searchParams.get('link') || '';
 
     const parsedRequest: ParsedRequest = {
         fileType: extension === 'jpeg' ? extension : 'png',
         title: decodeURIComponent(text),
-        description: stringify(description),
-        link: stringify(link)
+        description,
+        link
     };
 
     return parsedRequest;
